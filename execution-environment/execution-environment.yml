@@ -1,0 +1,30 @@
+---
+version: 3
+images:
+  base_image:
+    name: 'registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest'
+  
+dependencies:
+  galaxy: 
+    collections:
+      - name: ansible.windows
+        source: https://galaxy.ansible.com
+  
+  python: |
+    - pywinrm[kerberos]>=0.4.0
+  
+  system: |
+    - krb5-devel
+    - krb5-libs
+    - krb5-workstation
+options:
+  package_manager_path: /usr/bin/microdnf
+additional_build_files:
+    - src: configs/krb5.conf
+      dest: configs
+
+additional_build_steps:
+  prepend_base:
+    - RUN microdnf install -y krb5-devel krb5-libs krb5-workstation python3-devel
+    - COPY _build/configs/krb5.conf /etc/krb5.conf
+    - RUN echo "192.168.122.132 example01.com" >> /etc/hosts
