@@ -5,9 +5,13 @@
   tasks:
     - name: Display message as non-admin
       ansible.builtin.debug: 
-        msg: This task is executed as Administrator
+        msg: The next task is executed as Administrator
+
+    - ansible.windows.win_whoami:
 
     - name: Display message as admin
       ansible.builtin.debug:
-        msg: This tasks is executed as Non-Administrator
-      become: true
+        msg: The next task is executed as Non-Administrator
+
+    ansible.windows.win_whoami:
+    become: true
