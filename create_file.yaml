@@ -13,5 +13,5 @@
       ansible.builtin.debug:
         msg: The next task is executed as Non-Administrator
 
-    ansible.windows.win_whoami:
-    become: true
+    - ansible.windows.win_whoami:
+      become: true
